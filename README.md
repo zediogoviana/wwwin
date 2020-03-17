@@ -1,68 +1,73 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## WWWin
 
-In the project directory, you can run:
+**Who Would Win** is a football simulation engine developed in *React*.
 
-### `yarn start`
+Based on my previous *Java* experience [soccer-simulation-engine](https://github.com/zediogoviana/soccer-simulation-engine).
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+It takes account the overall value of the players roster, players age, 
+the form of the teams, supporters present on the stadium between each teams 
+and the team playing style. The referee it is also taken in account, with its personality value.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+You can also add your custom players one by one or chunk upload from a ```csv``` file.
 
-### `yarn test`
+### Player variables
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+* **Overall value:** Highest values, higher chance of scoring or defending with success.
+* **Age:** The older the roster, the more "weak" the players get with game time passing by, reducing the chance of scoring or defending. 
 
-### `yarn build`
+### Team variables definition
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+* **Team form:** `Integer between 0-100`, being `0` the lowest form possible and `100` the highest.
+	* Highest values gives more chances of scoring goals and winning.
+* **Supporters:** `Integer between 0-100`, being `0` the lowest supporting from fans possible and `100` the highest. 
+	* The team with most supporters has some advantage.
+* **Playing Style:** `Integer between 0-100`, being `0`the most defensive possible, and `100` the most attacking.
+	* A team with a high attacking playing style has more chance of attacking and scoring, but is more vulnerable on the defence side.
+	
+### Referee variables
+* **Personality:** `Integer between 0-100`. The higher a personality value of a referee the stricter he is, and higher the chance of giving a red card to a team.
+	* A team with sent off players is eavily penalised.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Roster Upload
 
-### `yarn eject`
+### One by One
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+You just need to fill in the form with the following info:
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+* Name
+* Position
+* Attack Value
+* Defence Value
+* Year of Birth
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Chunk upload
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+In order to run you need to use a `csv` file with the infos of each team's players. 
+In `resources` folder there is the corresponding files to test.
 
-## Learn More
+The `csv` has the following composition:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```
+PlayerName,Position,Attack,Defence,DateOfBirth
+(...) 
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Where:
+* Position: 
+    * ```G```: goal-keeper
+    * ```D```: defender
+    * ```M```: midfielder
+    * ```A```: attacker
+    
+## Screenshots
 
-### Code Splitting
+**Place screenshots here**
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+## Future work
 
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+* Substitutions
+* More realistic simulation 
+* Injuries
+* Yellow cards and Red cards with accumulation

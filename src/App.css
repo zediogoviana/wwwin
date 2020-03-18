@@ -28,6 +28,33 @@
   color: #61dafb;
 }
 
+.field-image {
+  background-image: url("resources/field2.png"); /* The image used */
+  background-color: #cccccc; /* Used if the image is unavailable */
+  height: calc(100vh - 164px); /* You must set a specified height */
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: 100% 100%; /* Resize the background image to cover the entire container */
+}
+
+.result-board {
+  height: 135px;
+}
+
+.team-board {
+  height: calc(100vh - 164px);
+}
+
+.player-list {
+  height: calc(100vh - 700px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.field-row {
+  height: calc((100vh - 164px) / 8);
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

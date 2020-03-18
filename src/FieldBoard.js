@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Grid, Label, Segment,
 } from 'semantic-ui-react';
+import SelectPlayerModal from './SelectPlayerModal';
 
 class FieldBoard extends React.Component {
   constructor(props) {
@@ -19,37 +20,50 @@ class FieldBoard extends React.Component {
   }
 
   render() {
-    const { tactics, teams, loading } = this.props;
+    const {
+      tactics, teams, loading, selectPlayer, handleSelectPlayerModal,
+      handlePlayerSelection,
+    } = this.props;
     return (
       <div className='field-image'>
         {!loading
           ? (
             <Segment basic>
+              <SelectPlayerModal
+                info={selectPlayer}
+                handleSelectPlayerModal={handleSelectPlayerModal}
+                teams={teams}
+                handlePlayerSelection={handlePlayerSelection}
+              />
               <Grid verticalAlign='middle'>
 
-                <Grid.Row columns='equal' style={{ height: '10vh' }}>
+                <Grid.Row columns='equal' className='field-row'>
                   <Grid.Column>
                     <Label
                       as='a'
-                      content={teams.home.starting11[0][0].name}
-                      detail={teams.home.starting11[0][0].position}
-                      basic
-                      color='black'
+                      detail={teams.home.starting11[0][0].name}
+                      content={teams.home.starting11[0][0].position}
+                      onClick={() => handleSelectPlayerModal(true, 'home', 0, 0)}
+                      size='large'
+                      color='blue'
                     />
                   </Grid.Column>
                 </Grid.Row>
 
                 {tactics.home.slice(1, tactics.home.length).map((position, i) => (
                 // eslint-disable-next-line react/no-array-index-key
-                  <Grid.Row columns='equal' key={i} style={{ height: '10vh' }}>
+                  <Grid.Row columns='equal' key={i} className='field-row'>
                     {[...Array(position)].map((player, j) => (
                     // eslint-disable-next-line react/no-array-index-key
                       <Grid.Column key={j}>
                         <Label
                           as='a'
-                          content={teams.home.starting11[i + 1][j].name}
-                          detail={teams.home.starting11[i + 1][j].position}
-                          color='blue'
+                          detail={teams.home.starting11[i + 1][j].name}
+                          content={teams.home.starting11[i + 1][j].position}
+                          onClick={() => handleSelectPlayerModal(true, 'home', i + 1, j)}
+                          size='large'
+                          color='black'
+                          //style={{ backgroundColor: '#3399ff' }}
                         />
                       </Grid.Column>
                     ))}
@@ -60,29 +74,33 @@ class FieldBoard extends React.Component {
               <Grid verticalAlign='middle'>
                 {tactics.away.slice(1, tactics.away.length).map((position, i) => (
                 // eslint-disable-next-line react/no-array-index-key
-                  <Grid.Row key={i} columns='equal' style={{ height: '10vh' }}>
+                  <Grid.Row key={i} columns='equal' className='field-row'>
                     {[...Array(position)].map((player, j) => (
                     // eslint-disable-next-line react/no-array-index-key
                       <Grid.Column key={j}>
                         <Label
                           as='a'
-                          content={teams.away.starting11[i + 1][j].name}
-                          detail={teams.away.starting11[i + 1][j].position}
-                          color='red'
+                          detail={teams.away.starting11[i + 1][j].name}
+                          content={teams.away.starting11[i + 1][j].position}
+                          onClick={() => handleSelectPlayerModal(true, 'away', i + 1, j)}
+                          size='large'
+                          basic
+                          color='black'
                         />
                       </Grid.Column>
                     ))}
                   </Grid.Row>
                 ))}
 
-                <Grid.Row columns='equal' style={{ height: '10vh' }}>
+                <Grid.Row columns='equal' className='field-row'>
                   <Grid.Column>
                     <Label
                       as='a'
-                      content={teams.away.starting11[teams.away.starting11.length - 1][0].name}
-                      detail={teams.away.starting11[teams.away.starting11.length - 1][0].position}
-                      basic
-                      color='black'
+                      detail={teams.away.starting11[0][0].name}
+                      content={teams.away.starting11[0][0].position}
+                      onClick={() => handleSelectPlayerModal(true, 'away', 0, 0)}
+                      size='large'
+                      color='red'
                     />
                   </Grid.Column>
                 </Grid.Row>

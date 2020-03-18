@@ -10,21 +10,13 @@ class TeamBoard extends React.Component {
 
     this.state = {
       fileReader: new FileReader(),
-      form: 50,
-      supporters: 50,
-      playStyle: 50,
       error: false,
       // loading: true,
     };
 
-    this.handleChange = this.handleChange.bind(this);
     this.handleLoad = this.handleLoad.bind(this);
     this.handleOnChangeFile = this.handleOnChangeFile.bind(this);
     this.handleFileRead = this.handleFileRead.bind(this);
-  }
-
-  handleChange(e, rating) {
-    this.setState({ [rating]: e.target.value });
   }
 
   handleLoad() {
@@ -65,10 +57,7 @@ class TeamBoard extends React.Component {
 
   render() {
     const {
-      form, supporters, playStyle,
-    } = this.state;
-    const {
-      type, color, team, handleTactics,
+      type, color, team, handleTactics, handleRatingChange,
     } = this.props;
     const options = [
       { content: '4,3,3', value: '4,3,3', text: '4,3,3' },
@@ -77,7 +66,7 @@ class TeamBoard extends React.Component {
     ];
 
     return (
-      <Segment tertiary style={{ height: '80vh' }}>
+      <Segment tertiary className='team-board'>
         <Button color={color} fluid content={type.toUpperCase()} />
         <Segment raised>
           <Grid textAlign='left'>
@@ -100,12 +89,15 @@ class TeamBoard extends React.Component {
             </Grid.Column>
           </Grid>
 
-          <List relaxed divided style={{ height: '15vh', overflowY: 'auto', overflowX: 'hidden' }}>
+          <List relaxed divided className='player-list'>
             {team.roster.map((player, i) => (
               // eslint-disable-next-line react/no-array-index-key
               <List.Item key={i}>
-                <Grid>
+                <Grid textAlign='left'>
                   <Grid.Column width={7}>
+                    {player.position}
+                    |
+                    {' '}
                     {player.name}
                     {' '}
                     (
@@ -113,11 +105,10 @@ class TeamBoard extends React.Component {
                     )
                   </Grid.Column>
                   <Grid.Column width={7}>
-                    {player.position}
+                    Def:
                     {' '}
                     {player.defense}
-                    {' '}
-                    -
+                    , Att:
                     {' '}
                     {player.attack}
                   </Grid.Column>
@@ -152,12 +143,12 @@ class TeamBoard extends React.Component {
                 type='range'
                 min={0}
                 max={100}
-                value={form}
-                onChange={(e) => this.handleChange(e, 'form')}
+                value={team.form}
+                onChange={(e) => handleRatingChange(e, 'form', type)}
               />
             </Grid.Column>
             <Grid.Column width={5}>
-              <Label style={{ width: 40 }} color={color} content={form} />
+              <Label style={{ width: 40 }} color={color} content={team.form} />
             </Grid.Column>
           </Grid>
         </Segment>
@@ -171,12 +162,12 @@ class TeamBoard extends React.Component {
                 type='range'
                 min={0}
                 max={100}
-                value={supporters}
-                onChange={(e) => this.handleChange(e, 'supporters')}
+                value={team.supporters}
+                onChange={(e) => handleRatingChange(e, 'supporters', type)}
               />
             </Grid.Column>
             <Grid.Column width={5}>
-              <Label style={{ width: 40 }} color={color} content={supporters} />
+              <Label style={{ width: 40 }} color={color} content={team.supporters} />
             </Grid.Column>
           </Grid>
         </Segment>
@@ -190,12 +181,12 @@ class TeamBoard extends React.Component {
                 type='range'
                 min={0}
                 max={100}
-                value={playStyle}
-                onChange={(e) => this.handleChange(e, 'playStyle')}
+                value={team.playingStyle}
+                onChange={(e) => handleRatingChange(e, 'playingStyle', type)}
               />
             </Grid.Column>
             <Grid.Column width={5}>
-              <Label style={{ width: 40 }} color={color} content={playStyle} />
+              <Label style={{ width: 40 }} color={color} content={team.playingStyle} />
             </Grid.Column>
           </Grid>
         </Segment>

@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Button, Dropdown, Grid, Header, Label, Segment,
+  Button, Dropdown, Grid, Header, Icon, Input, Label, Segment,
 } from 'semantic-ui-react';
 
 class ResultBoard extends React.Component {
@@ -8,21 +8,36 @@ class ResultBoard extends React.Component {
     super(props);
 
     this.state = {
-      referee: 50,
-      // loading: true,
+      editHome: false,
+      editAway: false,
     };
 
+    this.handleEditTeamName = this.handleEditTeamName.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleAddEnterKey = this.handleAddEnterKey.bind(this);
   }
 
   handleChange(e, rating) {
     this.setState({ [rating]: e.target.value });
   }
 
+  handleAddEnterKey(e, team) {
+    if (e.keyCode === 13) {
+      this.handleEditTeamName(team, false);
+    }
+  }
+
+  handleEditTeamName(team, value) {
+    this.setState({ [team]: value });
+  }
+
   render() {
     const {
-      referee,
+      editHome, editAway,
     } = this.state;
+    const {
+      referee, teams, handleTeamNameChange, handleRatingChange,
+    } = this.props;
     const options = [
       { content: '11v11', value: '11v11', text: '11v11' },
       { content: '7v7', value: '7v7', text: '7v7' },
@@ -50,7 +65,22 @@ class ResultBoard extends React.Component {
           <Grid.Column width={8} textAlign='center'>
             <Grid columns='equal'>
               <Grid.Column>
-                <h1>Team 1</h1>
+                {editHome
+                  ? (
+                    <Input
+                      name='home'
+                      value={teams.home.name}
+                      onChange={handleTeamNameChange}
+                      onKeyDown={(e) => this.handleAddEnterKey(e, 'editHome')}
+                      style={{ paddingBottom: '12px', width: '100%' }}
+                    />
+                  )
+                  : (
+                    <h1>
+                      {teams.home.name}
+                      <Icon fitted name='pencil alternate' size='mini' inverted color='grey' circular link onClick={() => this.handleEditTeamName('editHome', true)} />
+                    </h1>
+                  )}
                 <Label color='red' content='0' />
                 <Label color='yellow' content='0' />
               </Grid.Column>
@@ -59,7 +89,24 @@ class ResultBoard extends React.Component {
                 <Button content='Game Log' color='black' fluid />
               </Grid.Column>
               <Grid.Column>
-                <h1>Team 2</h1>
+                {editAway
+                  ? (
+                    <Input
+                      required
+                      maxLength='10'
+                      name='away'
+                      value={teams.away.name}
+                      onChange={handleTeamNameChange}
+                      onKeyDown={(e) => this.handleAddEnterKey(e, 'editAway')}
+                      style={{ paddingBottom: '12px', width: '100%' }}
+                    />
+                  )
+                  : (
+                    <h1>
+                      {teams.away.name}
+                      <Icon fitted name='pencil alternate' size='mini' inverted color='grey' circular link onClick={() => this.handleEditTeamName('editAway', true)} />
+                    </h1>
+                  )}
                 <Label color='red' content='0' />
                 <Label color='yellow' content='0' />
               </Grid.Column>
@@ -76,7 +123,7 @@ class ResultBoard extends React.Component {
                   min={0}
                   max={100}
                   value={referee}
-                  onChange={(e) => this.handleChange(e, 'referee')}
+                  onChange={(e) => handleRatingChange(e, '', 'referee')}
                 />
               </Grid.Column>
               <Grid.Column width={4}>

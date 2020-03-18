@@ -10,30 +10,48 @@ class App extends React.Component {
     super(props);
 
     this.state = {
+      referee: 50,
       teams: {
         home: {
           name: 'Team 1',
           starting11: [],
           roster: [],
+          form: 50,
+          supporters: 50,
+          playingStyle: 50,
         },
         away: {
           name: 'Team 2',
           starting11: [],
           roster: [],
+          form: 50,
+          supporters: 50,
+          playingStyle: 50,
         },
       },
       tactics: {
         home: [1, 4, 3, 3],
         away: [1, 3, 3, 4], // reversed for lineup
       },
+      selectPlayer: {
+        open: false,
+        team: '',
+        positionX: -1,
+        positionY: -1,
+      },
       loading: true,
     };
 
+    this.handleRatingChange = this.handleRatingChange.bind(this);
     this.handleTactics = this.handleTactics.bind(this);
     this.handleLoadPlayers = this.handleLoadPlayers.bind(this);
+    this.handleSelectPlayerModal = this.handleSelectPlayerModal.bind(this);
+    this.handlePlayerSelection = this.handlePlayerSelection.bind(this);
+    this.handleTeamNameChange = this.handleTeamNameChange.bind(this);
   }
 
   componentDidMount() {
+    document.title = 'WWWin';
     const { tactics } = this.state;
     this.buildTeam(tactics.home, 'home');
     this.buildTeam(tactics.away, 'away');
@@ -79,16 +97,56 @@ class App extends React.Component {
     this.setState({ teams, loading: false });
   }
 
+  handleSelectPlayerModal(value, team, positionX, positionY) {
+    this.setState({
+      selectPlayer: {
+        open: value, team, positionX, positionY,
+      },
+    });
+  }
+
+  handlePlayerSelection(player) {
+    const { teams, selectPlayer } = this.state;
+    const { team, positionX, positionY } = selectPlayer;
+    teams[team].starting11[positionX][positionY] = player;
+    selectPlayer.open = false;
+    this.setState({ teams, selectPlayer });
+  }
+
+  handleTeamNameChange(e) {
+    const el = (e.target ? e.target : e);
+    const { teams } = this.state;
+    teams[el.name].name = el.value;
+    this.setState({ teams });
+  }
+
+  handleRatingChange(e, rating, team) {
+    if (team === 'referee') {
+      this.setState({ referee: e.target.value });
+    } else {
+      const { teams } = this.state;
+      teams[team][rating] = e.target.value;
+      this.setState({ teams });
+    }
+  }
+
   render() {
-    const { tactics, teams, loading } = this.state;
+    const {
+      tactics, teams, loading, selectPlayer, referee,
+    } = this.state;
 
     return (
       <div className='App'>
         <Segment basic>
           <Grid stackable>
-            <Grid.Row columns='equal' style={{ height: '16vh' }}>
+            <Grid.Row columns='equal' className='result-board'>
               <Grid.Column>
-                <ResultBoard />
+                <ResultBoard
+                  referee={referee}
+                  handleTeamNameChange={this.handleTeamNameChange}
+                  handleRatingChange={this.handleRatingChange}
+                  teams={teams}
+                />
               </Grid.Column>
             </Grid.Row>
             <Grid.Row>
@@ -97,6 +155,7 @@ class App extends React.Component {
                   type='home'
                   color='blue'
                   team={teams.home}
+                  handleRatingChange={this.handleRatingChange}
                   handleTactics={this.handleTactics}
                   handleLoadPlayers={this.handleLoadPlayers}
                 />
@@ -106,6 +165,9 @@ class App extends React.Component {
                   tactics={tactics}
                   teams={teams}
                   loading={loading}
+                  handleSelectPlayerModal={this.handleSelectPlayerModal}
+                  handlePlayerSelection={this.handlePlayerSelection}
+                  selectPlayer={selectPlayer}
                 />
               </Grid.Column>
               <Grid.Column width={4}>
@@ -113,6 +175,7 @@ class App extends React.Component {
                   type='away'
                   color='red'
                   team={teams.away}
+                  handleRatingChange={this.handleRatingChange}
                   handleTactics={this.handleTactics}
                   handleLoadPlayers={this.handleLoadPlayers}
                 />

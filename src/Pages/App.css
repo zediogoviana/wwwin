@@ -29,7 +29,7 @@
 }
 
 .field-image {
-  background-image: url("resources/field2.png"); /* The image used */
+  background-image: url("../resources/field2.png"); /* The image used */
   background-color: #cccccc; /* Used if the image is unavailable */
   height: calc(100vh - 164px); /* You must set a specified height */
   background-position: center; /* Center the image */

@@ -3,6 +3,7 @@ import Papa from 'papaparse';
 import {
   Button, Dropdown, Grid, Header, Label, List, Segment,
 } from 'semantic-ui-react';
+import CreatePlayerModal from './CreatePlayerModal';
 
 class TeamBoard extends React.Component {
   constructor(props) {
@@ -58,6 +59,8 @@ class TeamBoard extends React.Component {
   render() {
     const {
       type, color, team, handleTactics, handleRatingChange,
+      handleDeletePlayer, handleCreatePlayerModal, createPlayer,
+      handlePlayerCreation,
     } = this.props;
     const options = [
       { content: '4,3,3', value: '4,3,3', text: '4,3,3' },
@@ -67,6 +70,11 @@ class TeamBoard extends React.Component {
 
     return (
       <Segment tertiary className='team-board'>
+        <CreatePlayerModal
+          info={createPlayer}
+          handleCreatePlayerModal={handleCreatePlayerModal}
+          handlePlayerCreation={handlePlayerCreation}
+        />
         <Button color={color} fluid content={type.toUpperCase()} />
         <Segment raised>
           <Grid textAlign='left'>
@@ -75,7 +83,12 @@ class TeamBoard extends React.Component {
             </Grid.Column>
             <Grid.Column width={6}>
               <Button.Group size='mini' floated='right'>
-                <Button color={color} basic icon='add' />
+                <Button
+                  color={color}
+                  basic
+                  icon='add'
+                  onClick={() => handleCreatePlayerModal(true, type)}
+                />
                 <input
                   type='file'
                   id='file'
@@ -94,7 +107,7 @@ class TeamBoard extends React.Component {
               // eslint-disable-next-line react/no-array-index-key
               <List.Item key={i}>
                 <Grid textAlign='left'>
-                  <Grid.Column width={7}>
+                  <Grid.Column width={6}>
                     {player.position}
                     |
                     {' '}
@@ -104,13 +117,17 @@ class TeamBoard extends React.Component {
                     {new Date().getFullYear() - player.birthYear}
                     )
                   </Grid.Column>
-                  <Grid.Column width={7}>
+                  <Grid.Column width={6}>
                     Def:
                     {' '}
                     {player.defense}
-                    , Att:
+                    <br />
+                    Att:
                     {' '}
                     {player.attack}
+                  </Grid.Column>
+                  <Grid.Column width={4}>
+                    <Button size='mini' icon='trash alternate' onClick={() => handleDeletePlayer(i, type)} />
                   </Grid.Column>
                 </Grid>
               </List.Item>

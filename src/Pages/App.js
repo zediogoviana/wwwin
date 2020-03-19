@@ -1,9 +1,9 @@
 import React from 'react';
 import './App.css';
 import { Grid, Segment } from 'semantic-ui-react';
-import TeamBoard from './TeamBoard';
-import FieldBoard from './FieldBoard';
-import ResultBoard from './ResultBoard';
+import TeamBoard from '../Components/TeamBoard';
+import FieldBoard from '../Components/FieldBoard';
+import ResultBoard from '../Components/ResultBoard';
 
 class App extends React.Component {
   constructor(props) {
@@ -39,6 +39,10 @@ class App extends React.Component {
         positionX: -1,
         positionY: -1,
       },
+      createPlayer: {
+        open: false,
+        team: '',
+      },
       loading: true,
     };
 
@@ -46,8 +50,11 @@ class App extends React.Component {
     this.handleTactics = this.handleTactics.bind(this);
     this.handleLoadPlayers = this.handleLoadPlayers.bind(this);
     this.handleSelectPlayerModal = this.handleSelectPlayerModal.bind(this);
+    this.handleCreatePlayerModal = this.handleCreatePlayerModal.bind(this);
     this.handlePlayerSelection = this.handlePlayerSelection.bind(this);
+    this.handlePlayerCreation = this.handlePlayerCreation.bind(this);
     this.handleTeamNameChange = this.handleTeamNameChange.bind(this);
+    this.handleDeletePlayer = this.handleDeletePlayer.bind(this);
   }
 
   componentDidMount() {
@@ -105,12 +112,35 @@ class App extends React.Component {
     });
   }
 
+  handleCreatePlayerModal(value, team) {
+    this.setState({
+      createPlayer: {
+        open: value, team,
+      },
+    });
+  }
+
   handlePlayerSelection(player) {
     const { teams, selectPlayer } = this.state;
     const { team, positionX, positionY } = selectPlayer;
     teams[team].starting11[positionX][positionY] = player;
     selectPlayer.open = false;
     this.setState({ teams, selectPlayer });
+  }
+
+  handlePlayerCreation(player) {
+    const { teams, createPlayer } = this.state;
+    const { team } = createPlayer;
+    teams[team].roster.push(player);
+    createPlayer.open = false;
+    this.setState({ teams, createPlayer });
+  }
+
+  handleDeletePlayer(index, team) {
+    const { teams } = this.state;
+    teams[team].roster.splice(index, 1);
+    // TODO remove player also from starting 11
+    this.setState({ teams });
   }
 
   handleTeamNameChange(e) {
@@ -132,7 +162,7 @@ class App extends React.Component {
 
   render() {
     const {
-      tactics, teams, loading, selectPlayer, referee,
+      tactics, teams, loading, selectPlayer, referee, createPlayer,
     } = this.state;
 
     return (
@@ -158,6 +188,10 @@ class App extends React.Component {
                   handleRatingChange={this.handleRatingChange}
                   handleTactics={this.handleTactics}
                   handleLoadPlayers={this.handleLoadPlayers}
+                  handleDeletePlayer={this.handleDeletePlayer}
+                  handleCreatePlayerModal={this.handleCreatePlayerModal}
+                  handlePlayerCreation={this.handlePlayerCreation}
+                  createPlayer={createPlayer}
                 />
               </Grid.Column>
               <Grid.Column width={8}>
@@ -178,6 +212,10 @@ class App extends React.Component {
                   handleRatingChange={this.handleRatingChange}
                   handleTactics={this.handleTactics}
                   handleLoadPlayers={this.handleLoadPlayers}
+                  handleDeletePlayer={this.handleDeletePlayer}
+                  handleCreatePlayerModal={this.handleCreatePlayerModal}
+                  handlePlayerCreation={this.handlePlayerCreation}
+                  createPlayer={createPlayer}
                 />
               </Grid.Column>
             </Grid.Row>

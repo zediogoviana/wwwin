@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Button, Dropdown, Grid, Header, Icon, Input, Label, Segment,
 } from 'semantic-ui-react';
+import GameLogModal from "./GameLogModal";
 
 class ResultBoard extends React.Component {
   constructor(props) {
@@ -37,6 +38,8 @@ class ResultBoard extends React.Component {
     } = this.state;
     const {
       referee, teams, handleTeamNameChange, handleRatingChange,
+      handleStartSimulation, game, handleGameType, disabled,
+      gameLog, handleGameLogModal, log,
     } = this.props;
     const options = [
       { content: '11v11', value: '11v11', text: '11v11' },
@@ -45,7 +48,8 @@ class ResultBoard extends React.Component {
     ];
 
     return (
-      <Segment tertiary>
+      <Segment loading={disabled} tertiary>
+        <GameLogModal open={gameLog} handleGameLogModal={handleGameLogModal} log={log} />
         <Grid stackable divided verticalAlign='middle'>
           <Grid.Column width={4} textAlign='left'>
             <Header as='h3'>
@@ -56,10 +60,18 @@ class ResultBoard extends React.Component {
                   inline
                   options={options}
                   defaultValue={options[0].value}
+                  onChange={handleGameType}
                 />
               </Header.Content>
             </Header>
-            <Button content='Simulate' icon='play' labelPosition='left' color='black' fluid />
+            <Button
+              content='Simulate'
+              icon='play'
+              labelPosition='left'
+              color='black'
+              fluid
+              onClick={handleStartSimulation}
+            />
           </Grid.Column>
 
           <Grid.Column width={8} textAlign='center'>
@@ -81,12 +93,23 @@ class ResultBoard extends React.Component {
                       <Icon fitted name='pencil alternate' size='mini' inverted color='grey' circular link onClick={() => this.handleEditTeamName('editHome', true)} />
                     </h1>
                   )}
-                <Label color='red' content='0' />
+                <Label color='red' content={game.home.redCards} />
                 <Label color='yellow' content='0' />
               </Grid.Column>
               <Grid.Column>
-                <h1>0 - 0</h1>
-                <Button content='Game Log' color='black' fluid />
+                <h1>
+                  {game.home.goals}
+                  {' '}
+                  -
+                  {' '}
+                  {game.away.goals}
+                </h1>
+                <Button
+                  content='Game Log'
+                  color='black'
+                  fluid
+                  onClick={() => handleGameLogModal(true)}
+                />
               </Grid.Column>
               <Grid.Column>
                 {editAway
@@ -107,13 +130,21 @@ class ResultBoard extends React.Component {
                       <Icon fitted name='pencil alternate' size='mini' inverted color='grey' circular link onClick={() => this.handleEditTeamName('editAway', true)} />
                     </h1>
                   )}
-                <Label color='red' content='0' />
+                <Label color='red' content={game.away.redCards} />
                 <Label color='yellow' content='0' />
               </Grid.Column>
             </Grid>
           </Grid.Column>
 
           <Grid.Column width={4} textAlign='left'>
+            <Label
+              color='black'
+              attached='top right'
+              content='Github'
+              icon='github'
+              as='a'
+              href='https://github.com/zediogoviana/wwwin'
+            />
             <h3 style={{ color: '#000000' }}>Referee Personality</h3>
             <Grid verticalAlign='middle' textAlign='center'>
               <Grid.Column width={12}>

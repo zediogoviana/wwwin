@@ -4,15 +4,18 @@ import { Grid, Segment } from 'semantic-ui-react';
 import TeamBoard from '../Components/TeamBoard';
 import FieldBoard from '../Components/FieldBoard';
 import ResultBoard from '../Components/ResultBoard';
+import { startSimulation } from '../Engine';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      gameType: '11v11',
       referee: 50,
       teams: {
         home: {
+          type: 'home',
           name: 'Team 1',
           starting11: [],
           roster: [],
@@ -21,6 +24,7 @@ class App extends React.Component {
           playingStyle: 50,
         },
         away: {
+          type: 'away',
           name: 'Team 2',
           starting11: [],
           roster: [],
@@ -28,6 +32,18 @@ class App extends React.Component {
           supporters: 50,
           playingStyle: 50,
         },
+      },
+      game: {
+        home: {
+          goals: 0,
+          redCards: 0,
+        },
+        away: {
+          goals: 0,
+          redCards: 0,
+        },
+        minute: 0,
+        log: [],
       },
       tactics: {
         home: [1, 4, 3, 3],
@@ -43,7 +59,26 @@ class App extends React.Component {
         open: false,
         team: '',
       },
+      gameLog: false,
       loading: true,
+      disabled: false,
+    };
+
+    this.tacticsOptions = {
+      '11v11': [
+        { content: '4,3,3', value: '4,3,3', text: '4,3,3' },
+        { content: '3,5,2', value: '3,5,2', text: '3,5,2' },
+        { content: '4,4,2', value: '4,4,2', text: '4,4,2' },
+      ],
+      '7v7': [
+        { content: '2,3,1', value: '2,3,1', text: '2,3,1' },
+        { content: '3,2,1', value: '3,2,1', text: '3,2,1' },
+        { content: '2,2,2', value: '2,2,2', text: '2,2,2' },
+      ],
+      '5v5': [
+        { content: '1,2,1', value: '1,2,1', text: '1,2,1' },
+        { content: '2,1,1', value: '2,1,1', text: '2,1,1' },
+      ],
     };
 
     this.handleRatingChange = this.handleRatingChange.bind(this);
@@ -55,6 +90,9 @@ class App extends React.Component {
     this.handlePlayerCreation = this.handlePlayerCreation.bind(this);
     this.handleTeamNameChange = this.handleTeamNameChange.bind(this);
     this.handleDeletePlayer = this.handleDeletePlayer.bind(this);
+    this.handleStartSimulation = this.handleStartSimulation.bind(this);
+    this.handleGameType = this.handleGameType.bind(this);
+    this.handleGameLogModal = this.handleGameLogModal.bind(this);
   }
 
   componentDidMount() {
@@ -97,6 +135,19 @@ class App extends React.Component {
     this.setState({ tactics, loading: false });
   }
 
+  handleGameType(e, gameType) {
+    this.setState({ loading: true });
+    this.handleTactics(null, {
+      name: 'home',
+      value: this.tacticsOptions[gameType.value][0].text,
+    });
+    this.handleTactics(null, {
+      name: 'away',
+      value: this.tacticsOptions[gameType.value][0].text,
+    });
+    this.setState({ gameType: gameType.value, loading: false });
+  }
+
   handleLoadPlayers(players, team) {
     this.setState({ loading: true });
     const { teams } = this.state;
@@ -110,6 +161,10 @@ class App extends React.Component {
         open: value, team, positionX, positionY,
       },
     });
+  }
+
+  handleGameLogModal(value) {
+    this.setState({ gameLog: value });
   }
 
   handleCreatePlayerModal(value, team) {
@@ -160,9 +215,30 @@ class App extends React.Component {
     }
   }
 
+  resetGame() {
+    const { game } = this.state;
+    game.log = [];
+    game.home.goals = 0;
+    game.away.goals = 0;
+    game.home.redCards = 0;
+    game.away.redCards = 0;
+    this.setState({ game });
+  }
+
+  handleStartSimulation() {
+    this.setState({ loading: true, disabled: true });
+    const { teams, game, referee } = this.state;
+    this.resetGame();
+    setTimeout(() => {
+      startSimulation(teams, game, referee);
+      this.setState({ loading: false, disabled: false });
+    }, 1000);
+  }
+
   render() {
     const {
-      tactics, teams, loading, selectPlayer, referee, createPlayer,
+      tactics, teams, loading, selectPlayer, disabled,
+      referee, createPlayer, game, gameType, gameLog
     } = this.state;
 
     return (
@@ -172,10 +248,17 @@ class App extends React.Component {
             <Grid.Row columns='equal' className='result-board'>
               <Grid.Column>
                 <ResultBoard
+                  disabled={disabled}
                   referee={referee}
+                  gameLog={gameLog}
+                  handleGameLogModal={this.handleGameLogModal}
+                  log={game.log}
+                  handleGameType={this.handleGameType}
                   handleTeamNameChange={this.handleTeamNameChange}
                   handleRatingChange={this.handleRatingChange}
+                  handleStartSimulation={this.handleStartSimulation}
                   teams={teams}
+                  game={game}
                 />
               </Grid.Column>
             </Grid.Row>
@@ -185,6 +268,8 @@ class App extends React.Component {
                   type='home'
                   color='blue'
                   team={teams.home}
+                  disabled={disabled}
+                  tacticsOptions={this.tacticsOptions[gameType]}
                   handleRatingChange={this.handleRatingChange}
                   handleTactics={this.handleTactics}
                   handleLoadPlayers={this.handleLoadPlayers}
@@ -209,6 +294,8 @@ class App extends React.Component {
                   type='away'
                   color='red'
                   team={teams.away}
+                  disabled={disabled}
+                  tacticsOptions={this.tacticsOptions[gameType]}
                   handleRatingChange={this.handleRatingChange}
                   handleTactics={this.handleTactics}
                   handleLoadPlayers={this.handleLoadPlayers}

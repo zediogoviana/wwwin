@@ -108,7 +108,7 @@ class FieldBoard extends React.Component {
               </Grid>
             </Segment>
           )
-          : <Segment loading basic style={{ height: '80vh' }} />}
+          : <Segment loading basic className='team-board' />}
 
       </div>
 

@@ -60,13 +60,8 @@ class TeamBoard extends React.Component {
     const {
       type, color, team, handleTactics, handleRatingChange,
       handleDeletePlayer, handleCreatePlayerModal, createPlayer,
-      handlePlayerCreation,
+      handlePlayerCreation, tacticsOptions, disabled,
     } = this.props;
-    const options = [
-      { content: '4,3,3', value: '4,3,3', text: '4,3,3' },
-      { content: '3,5,2', value: '3,5,2', text: '3,5,2' },
-      { content: '4,4,2', value: '4,4,2', text: '4,4,2' },
-    ];
 
     return (
       <Segment tertiary className='team-board'>
@@ -135,15 +130,15 @@ class TeamBoard extends React.Component {
           </List>
         </Segment>
 
-        <Segment raised textAlign='left'>
+        <Segment disabled={disabled} raised textAlign='left'>
           <Header as='h3'>
             <Header.Content>
               Tactics:
               {' '}
               <Dropdown
                 inline
-                options={options}
-                defaultValue={options[0].value}
+                options={tacticsOptions}
+                defaultValue={tacticsOptions[0].value}
                 name={type}
                 onChange={handleTactics}
               />
@@ -151,7 +146,7 @@ class TeamBoard extends React.Component {
           </Header>
         </Segment>
 
-        <Segment raised textAlign='left'>
+        <Segment disabled={disabled} raised textAlign='left'>
           <h3 style={{ color: '#000000' }}>Team Form</h3>
           <Grid verticalAlign='middle' textAlign='center'>
             <Grid.Column width={11}>
@@ -170,7 +165,7 @@ class TeamBoard extends React.Component {
           </Grid>
         </Segment>
 
-        <Segment raised textAlign='left'>
+        <Segment disabled={disabled} raised textAlign='left'>
           <h3 style={{ color: '#000000' }}>Supporters</h3>
           <Grid verticalAlign='middle' textAlign='center'>
             <Grid.Column width={11}>
@@ -189,7 +184,7 @@ class TeamBoard extends React.Component {
           </Grid>
         </Segment>
 
-        <Segment raised textAlign='left'>
+        <Segment disabled={disabled} raised textAlign='left'>
           <h3 style={{ color: '#000000' }}>Playing Style</h3>
           <Grid verticalAlign='middle' textAlign='center'>
             <Grid.Column width={11}>

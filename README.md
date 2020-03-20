@@ -1,10 +1,14 @@
 
 ## WWWin
+[![Netlify Status](https://api.netlify.com/api/v1/badges/d50587ac-39ef-4164-b2ff-a3c4ddf94c68/deploy-status)](https://app.netlify.com/sites/brave-kare-54d23b/deploys)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fzediogoviana%2Fwwwin.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fzediogoviana%2Fwwwin?ref=badge_shield)
 
 **Who Would Win** is a football simulation engine developed in *React*.
 
+### [wwwin.netlify.com](https://wwwin.netlify.com/)
+
 Based on my previous *Java* experiment [soccer-simulation-engine](https://github.com/zediogoviana/soccer-simulation-engine),
-*WWWin* is an `arcade like` football (soccer) simulation engine.
+**WWWin** is an `arcade-like` football (soccer) simulation engine.
 
 You add your custom players one by one or chunk upload from a ```csv``` file and 
 interact with different variables and lineups, observing the impact on the simulation.
@@ -35,15 +39,15 @@ It is possible to select the number of players in the game and different formati
 
 Game Types and Formations:
 
-* `11v11`
+* **11v11**:
     * `4, 3, 3`
     * `3, 5, 2`
     * `4, 4, 2`
-* `7v7`
+* **7v7**:
     * `2, 3, 1`
     * `3, 2, 1`
     * `2, 2, 2`
-* `5v5`
+* **5v5**:
     * `1, 2, 1`
     * `2, 1, 1`
 
@@ -93,6 +97,8 @@ Where:
     * ```A```: attacker
 * Attack and Defense: `Integer between 0-100`
 * Birth Year: `YYYY`
+
+[Here](https://github.com/zediogoviana/wwwin/tree/master/resources) you can fin two different `csv` examples to try
     
 ## Screenshots
 

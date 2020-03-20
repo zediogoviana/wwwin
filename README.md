@@ -3,13 +3,17 @@
 
 **Who Would Win** is a football simulation engine developed in *React*.
 
-Based on my previous *Java* experience [soccer-simulation-engine](https://github.com/zediogoviana/soccer-simulation-engine).
+Based on my previous *Java* experiment [soccer-simulation-engine](https://github.com/zediogoviana/soccer-simulation-engine),
+*WWWin* is an `arcade like` football (soccer) simulation engine.
 
-It takes account the overall value of the players roster, players age, 
+You add your custom players one by one or chunk upload from a ```csv``` file and 
+interact with different variables and lineups, observing the impact on the simulation.
+
+It takes account the overall value of the players starting 11, players age, 
 the form of the teams, supporters present on the stadium between each teams 
 and the team playing style. The referee it is also taken in account, with its personality value.
 
-You can also add your custom players one by one or chunk upload from a ```csv``` file.
+After all this, luck factors and others are also taken into value in order to simulate a game.
 
 ### Player variables
 
@@ -23,7 +27,26 @@ You can also add your custom players one by one or chunk upload from a ```csv```
 * **Supporters:** `Integer between 0-100`, being `0` the lowest supporting from fans possible and `100` the highest. 
 	* The team with most supporters has some advantage.
 * **Playing Style:** `Integer between 0-100`, being `0`the most defensive possible, and `100` the most attacking.
-	* A team with a high attacking playing style has more chance of attacking and scoring, but is more vulnerable on the defence side.
+	* A team with a high attacking playing style has more chance of attacking and scoring, but is more vulnerable on the defense side.
+
+### Number of Players and Tactics definition
+
+It is possible to select the number of players in the game and different formations for each team.
+
+Game Types and Formations:
+
+* `11v11`
+    * `4, 3, 3`
+    * `3, 5, 2`
+    * `4, 4, 2`
+* `7v7`
+    * `2, 3, 1`
+    * `3, 2, 1`
+    * `2, 2, 2`
+* `5v5`
+    * `1, 2, 1`
+    * `2, 1, 1`
+
 	
 ### Referee variables
 * **Personality:** `Integer between 0-100`. The higher a personality value of a referee the stricter he is, and higher the chance of giving a red card to a team.
@@ -40,7 +63,7 @@ You just need to fill in the form with the following info:
 * Position
 * Attack Value
 * Defence Value
-* Year of Birth
+* Birth Year
 
 ### Chunk upload
 
@@ -49,8 +72,16 @@ In `resources` folder there is the corresponding files to test.
 
 The `csv` has the following composition:
 
+* First line (Header)
+
 ```
-PlayerName,Position,Attack,Defence,DateOfBirth
+name,position,attack,defense,birthYear
+```
+
+* Following lines (Player Information)
+
+```
+PlayerName,PlayerPosition,Attack,Defense,PlayerBirthYear
 (...) 
 ```
 
@@ -60,10 +91,19 @@ Where:
     * ```D```: defender
     * ```M```: midfielder
     * ```A```: attacker
+* Attack and Defense: `Integer between 0-100`
+* Birth Year: `YYYY`
     
 ## Screenshots
 
-**Place screenshots here**
+### 5v5 Game
+![Example Output1](./resources/screenshots/Screenshot1.png)
+
+### 11v11 Game
+![Example Output1](./resources/screenshots/Screenshot2.png)
+
+### Simulation Game Log
+![Example Output1](./resources/screenshots/Screenshot3.png)
 
 ## Future work
 
@@ -71,3 +111,4 @@ Where:
 * More realistic simulation 
 * Injuries
 * Yellow cards and Red cards with accumulation
+* Maybe implement with [react-redux](https://github.com/reduxjs/react-redux)

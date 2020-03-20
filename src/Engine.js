@@ -140,31 +140,31 @@ export function calculateGoal(team, minute, redCards) {
 }
 
 export function calculateDefend(team, minute, redCards) {
-  let defence = 0;
+  let defense = 0;
 
   // Value of Defence
-  defence += (getDefence(team.starting11) * 0.75)
+  defense += (getDefence(team.starting11) * 0.75)
     + (getMeanValue(team.starting11) * 0.25);
 
   // Time Effect on Age with time
-  defence -= ageEffect(team.starting11, minute);
+  defense -= ageEffect(team.starting11, minute);
 
   // Time Effect on Suspensions
-  defence -= redCardsEffect(redCards, minute);
+  defense -= redCardsEffect(redCards, minute);
 
   // Supporters Rate Effect
-  defence += supportersEffect(team.supporters);
+  defense += supportersEffect(team.supporters);
 
   // Form Rate Effect
-  defence += formEffect(team.form);
+  defense += formEffect(team.form);
 
   // Playing Style Effect
   // 0: Super Defensive
   // 100: Super Attacking
-  // More attack less defence
-  defence += playingStyleEffect(team.playingStyle);
+  // More attack less defense
+  defense += playingStyleEffect(team.playingStyle);
 
-  return defence;
+  return defense;
 }
 
 // Calculate what team starts an attack

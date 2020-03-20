@@ -1,4 +1,3 @@
-
 ## WWWin
 
 **Who Would Win** is a football simulation engine developed in *React*.
@@ -98,6 +97,7 @@ Where:
 
 ### 5v5 Game
 ![Example Output1](./resources/screenshots/Screenshot1.png)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fzediogoviana%2Fwwwin.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fzediogoviana%2Fwwwin?ref=badge_shield)
 
 ### 11v11 Game
 ![Example Output1](./resources/screenshots/Screenshot2.png)
@@ -112,3 +112,7 @@ Where:
 * Injuries
 * Yellow cards and Red cards with accumulation
 * Maybe implement with [react-redux](https://github.com/reduxjs/react-redux)
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fzediogoviana%2Fwwwin.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fzediogoviana%2Fwwwin?ref=badge_large)

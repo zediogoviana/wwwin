@@ -4,7 +4,7 @@ import { Grid, Segment } from 'semantic-ui-react';
 import TeamBoard from '../Components/TeamBoard';
 import FieldBoard from '../Components/FieldBoard';
 import ResultBoard from '../Components/ResultBoard';
-import { startSimulation } from '../Engine';
+import { startSimulation } from '../Simulation/Engine';
 
 class App extends React.Component {
   constructor(props) {
@@ -108,6 +108,7 @@ class App extends React.Component {
     // eslint-disable-next-line no-plusplus
     for (let i = 0; i < tactics.length; i++) {
       team.push([]);
+      // eslint-disable-next-line no-plusplus
       for (let j = 0; j < tactics[i]; j++) {
         team[i].push({
           name: '',
@@ -238,7 +239,7 @@ class App extends React.Component {
   render() {
     const {
       tactics, teams, loading, selectPlayer, disabled,
-      referee, createPlayer, game, gameType, gameLog
+      referee, createPlayer, game, gameType, gameLog,
     } = this.state;
 
     return (

@@ -11,7 +11,7 @@ class TeamBoard extends React.Component {
 
     this.state = {
       fileReader: new FileReader(),
-      error: false,
+      // error: false,
       // loading: true,
     };
 
@@ -22,6 +22,7 @@ class TeamBoard extends React.Component {
 
   handleLoad() {
     // opens de upload window
+    // eslint-disable-next-line react/no-string-refs
     this.refs.fileUploader.click();
   }
 
@@ -52,7 +53,7 @@ class TeamBoard extends React.Component {
         },
       });
     } catch (e) {
-      this.setState({ error: true });
+      // this.setState({ error: true });
     }
   }
 
@@ -88,6 +89,7 @@ class TeamBoard extends React.Component {
                   type='file'
                   id='file'
                   accept='.csv'
+                  /* eslint-disable-next-line react/no-string-refs */
                   ref='fileUploader'
                   style={{ display: 'none' }}
                   onChange={this.handleOnChangeFile}

@@ -3,7 +3,9 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/d50587ac-39ef-4164-b2ff-a3c4ddf94c68/deploy-status)](https://app.netlify.com/sites/brave-kare-54d23b/deploys)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fzediogoviana%2Fwwwin.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fzediogoviana%2Fwwwin?ref=badge_shield)
 
-**Who Would Win** is a football simulation engine developed in *React*.
+**Who Would Win** is a football simulation engine developed in *React*. 
+
+***(only works in desktop browser)***
 
 ### [wwwin.netlify.com](https://wwwin.netlify.com/)
 

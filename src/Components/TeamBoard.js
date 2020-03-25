@@ -90,7 +90,7 @@ function TeamBoard(props) {
           />
         )
         : ''}
-      <Button color={color} fluid content={type.toUpperCase()} />
+      <Label style={{ width: '100%' }} size='big' color={color} content={type.toUpperCase()} />
       <Segment raised>
         <Grid textAlign='left'>
           <Grid.Column width={10}>

@@ -28,8 +28,7 @@
         "no-restricted-globals": "off", // isNaN
         "import/no-dynamic-require": "off",
         "global-require": "off",
-        "react/jsx-props-no-spreading": "off",
-        "react/prop-types": "off", // don't need to validate types
+        "react/prop-types": "off",
         "jsx-quotes": [
             "error",
             "prefer-single"

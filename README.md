@@ -10,8 +10,16 @@
 Based on my previous *Java* experiment [soccer-simulation-engine](https://github.com/zediogoviana/soccer-simulation-engine),
 **WWWin** is an `arcade-like` football (soccer) simulation engine.
 
-You can add your custom players one by one or chunk upload from a ```csv``` file and 
-interact with different variables and lineups, observing the impact on the simulation.
+Create your team by:
+* adding your custom players one by one
+* chunk upload from a ```csv``` file 
+* generate a random roster and starting lineup.
+
+Every player can later be edited.
+
+## How it Works
+
+Interact with different variables and lineups, observing the impact on the simulation.
 
 It takes account the overall value of the players starting 11, players age, 
 the form of the teams, supporters present on the stadium between each teams 

@@ -93,6 +93,8 @@ class App extends React.Component {
     this.handleStartSimulation = this.handleStartSimulation.bind(this);
     this.handleGameType = this.handleGameType.bind(this);
     this.handleGameLogModal = this.handleGameLogModal.bind(this);
+    this.handleRandomPlayers = this.handleRandomPlayers.bind(this);
+    this.handlePlayerEdit = this.handlePlayerEdit.bind(this);
   }
 
   componentDidMount() {
@@ -105,11 +107,9 @@ class App extends React.Component {
 
   buildTeam(tactics, type) {
     const team = [];
-    // eslint-disable-next-line no-plusplus
-    for (let i = 0; i < tactics.length; i++) {
+    for (let i = 0; i < tactics.length; i += 1) {
       team.push([]);
-      // eslint-disable-next-line no-plusplus
-      for (let j = 0; j < tactics[i]; j++) {
+      for (let j = 0; j < tactics[i]; j += 1) {
         team[i].push({
           name: '',
           attack: 0,
@@ -156,6 +156,14 @@ class App extends React.Component {
     this.setState({ teams, loading: false });
   }
 
+  handleRandomPlayers(players, team) {
+    this.setState({ loading: true });
+    const { teams } = this.state;
+    teams[team].starting11 = players;
+    teams[team].roster = [].concat(...players);
+    this.setState({ teams, loading: false });
+  }
+
   handleSelectPlayerModal(value, team, positionX, positionY) {
     this.setState({
       selectPlayer: {
@@ -188,6 +196,14 @@ class App extends React.Component {
     const { teams, createPlayer } = this.state;
     const { team } = createPlayer;
     teams[team].roster.push(player);
+    createPlayer.open = false;
+    this.setState({ teams, createPlayer });
+  }
+
+  handlePlayerEdit(player, index) {
+    const { teams, createPlayer } = this.state;
+    const { team } = createPlayer;
+    teams[team].roster[index] = player;
     createPlayer.open = false;
     this.setState({ teams, createPlayer });
   }
@@ -277,6 +293,8 @@ class App extends React.Component {
                   handleDeletePlayer={this.handleDeletePlayer}
                   handleCreatePlayerModal={this.handleCreatePlayerModal}
                   handlePlayerCreation={this.handlePlayerCreation}
+                  handleRandomPlayers={this.handleRandomPlayers}
+                  handlePlayerEdit={this.handlePlayerEdit}
                   createPlayer={createPlayer}
                 />
               </Grid.Column>
@@ -303,6 +321,8 @@ class App extends React.Component {
                   handleDeletePlayer={this.handleDeletePlayer}
                   handleCreatePlayerModal={this.handleCreatePlayerModal}
                   handlePlayerCreation={this.handlePlayerCreation}
+                  handleRandomPlayers={this.handleRandomPlayers}
+                  handlePlayerEdit={this.handlePlayerEdit}
                   createPlayer={createPlayer}
                 />
               </Grid.Column>

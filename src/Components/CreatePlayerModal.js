@@ -17,15 +17,15 @@ const positionOptions = [
 ];
 
 function CreatePlayerModal(props) {
-  const [name, setName] = useState('');
-  const [position, setPosition] = useState('');
-  const [birthYear, setBirthYear] = useState(new Date().getFullYear());
-  const [attack, setAttack] = useState(0);
-  const [defense, setDefense] = useState(0);
   const {
-    info, handleCreatePlayerModal,
+    handleCreatePlayerModal, player, index,
   } = props;
   const birthYearOptions = range(new Date().getFullYear() - 50, new Date().getFullYear());
+  const [name, setName] = useState(player.name);
+  const [position, setPosition] = useState(player.position);
+  const [birthYear, setBirthYear] = useState(new Date().getFullYear());
+  const [attack, setAttack] = useState(player.attack);
+  const [defense, setDefense] = useState(player.defense);
 
   function clearState() {
     setName('');
@@ -35,17 +35,23 @@ function CreatePlayerModal(props) {
     setAttack(0);
   }
 
-  function handleCreatePlayer() {
-    const { handlePlayerCreation } = props;
-    handlePlayerCreation({
-      name, position, birthYear, attack, defense,
-    });
+  function handlePlayer() {
+    const { handlePlayerCreation, handlePlayerEdit } = props;
+    if (index === -1) {
+      handlePlayerCreation({
+        name, position, birthYear, attack, defense,
+      });
+    } else {
+      handlePlayerEdit({
+        name, position, birthYear, attack, defense,
+      }, index);
+    }
     clearState();
     handleCreatePlayerModal(false, '');
   }
 
   return (
-    <Modal open={info.open} size='mini'>
+    <Modal open size='mini'>
       <Modal.Header>Select a Player</Modal.Header>
       <Modal.Content>
         <p>Name</p>
@@ -116,7 +122,7 @@ function CreatePlayerModal(props) {
       </Modal.Content>
       <Modal.Actions>
         <Button onClick={() => handleCreatePlayerModal(false, '')} negative content='Cancel' />
-        <Button onClick={handleCreatePlayer} positive content='Confirm' />
+        <Button onClick={handlePlayer} positive content='Confirm' />
       </Modal.Actions>
     </Modal>
   );

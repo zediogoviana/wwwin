@@ -206,7 +206,6 @@ export function defendAttack(attackingTeam, defendingTeam, game) {
 
 
 export function faultEvent(referee, teams, game) {
-  // TODO set state do game
   const redCard = referee * Math.random() * REFEREE_PERSONALITY_FACTOR;
 
   // If is likely to send off
@@ -226,7 +225,6 @@ export function faultEvent(referee, teams, game) {
 
 
 export function attackEvent(teams, game) {
-  // TODO set state do game
   // Get team that starts an attack
   const attackingTeam = startsAttack(teams, game);
   const defendingTeam = attackingTeam === 'away' ? 'home' : 'away';
@@ -247,8 +245,7 @@ export function attackEvent(teams, game) {
 export function startSimulation(teams, game, referee) {
   game.log.push({ type: 'game', value: '[GAME STARTED]' });
   // 90 minutes Game
-  // eslint-disable-next-line no-plusplus
-  for (let minute = 0; minute < 90; minute++) {
+  for (let minute = 0; minute < 90; minute += 1) {
     // eslint-disable-next-line no-param-reassign
     game.minute = minute;
     // What happens in this minute?

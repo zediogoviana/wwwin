@@ -17,8 +17,7 @@ function includes(starting11, player) {
   return false;
 }
 
-function filterStartingPlayers() {
-  const { info, teams } = this.props;
+function filterStartingPlayers(info, teams) {
   const filtered = [];
   for (let i = 0; i < teams[info.team].roster.length; i += 1) {
     if (!includes(teams[info.team].starting11, teams[info.team].roster[i])) {
@@ -28,9 +27,9 @@ function filterStartingPlayers() {
   return filtered;
 }
 
-function modalContent(info) {
+function modalContent(info, teams) {
   if (info.team !== '') {
-    return filterStartingPlayers().length !== 0;
+    return filterStartingPlayers(info, teams).length !== 0;
   }
   return false;
 }
@@ -40,16 +39,16 @@ function SelectPlayerModal(props) {
     name: '', position: '', attack: 0, defense: 0, birthYear: 0,
   };
   const {
-    info, handleSelectPlayerModal, handlePlayerSelection,
+    info, teams, handleSelectPlayerModal, handlePlayerSelection,
   } = props;
   return (
     <Modal open={info.open}>
       <Modal.Header>Select a Player</Modal.Header>
       <Modal.Content>
-        {modalContent(info)
+        {modalContent(info, teams)
           ? (
             <List selection relaxed divided size='big' style={{ maxHeight: '50vh', overflowY: 'auto', overflowX: 'hidden' }}>
-              {filterStartingPlayers().map((player, i) => (
+              {filterStartingPlayers(info, teams).map((player, i) => (
                 // eslint-disable-next-line react/no-array-index-key
                 <List.Item key={i} onClick={() => handlePlayerSelection(player)}>
                   <Grid textAlign='left'>
